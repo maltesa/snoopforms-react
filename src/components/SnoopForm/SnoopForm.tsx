@@ -1,11 +1,4 @@
-import FingerprintJS, { Agent } from '@fingerprintjs/fingerprintjs';
-import React, {
-  createContext,
-  FC,
-  ReactNode,
-  useEffect,
-  useState,
-} from 'react';
+import React, { createContext, FC, ReactNode, useState } from 'react';
 import { classNamesConcat } from '../../lib/utils';
 
 export const SchemaContext = createContext({
@@ -61,23 +54,12 @@ export const SnoopForm: FC<Props> = ({
   const [submission, setSubmission] = useState<any>({});
   const [currentPageIdx, setCurrentPageIdx] = useState(0);
   const [submissionSessionId, setSubmissionSessionId] = useState('');
-  const [fp, setFp] = useState<Agent>();
-
-  useEffect(() => {
-    FingerprintJS.load({ monitoring: false }).then(f => setFp(f));
-  }, []);
 
   const handleSubmit = async (pageName: string) => {
     let _submissionSessionId = submissionSessionId;
     if (!localOnly) {
       // create answer session if it don't exist
       try {
-        if (typeof fp === 'undefined') {
-          console.error(
-            `🦝 SnoopForms: Unable to send submission to snoopHub. Error: Can't initialize fingerprint`
-          );
-          return;
-        }
         if (!formId) {
           console.warn(
             `🦝 SnoopForms: formId not set. Skipping sending submission to snoopHub.`
@@ -85,8 +67,6 @@ export const SnoopForm: FC<Props> = ({
           return;
         }
         if (!_submissionSessionId) {
-          // get digital fingerprint of user for unique user feature
-          const fpResult = await fp.get();
           // create new submissionSession in snoopHub
 
           const submissionSessionRes: any = await fetch(
@@ -94,9 +74,7 @@ export const SnoopForm: FC<Props> = ({
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                userFingerprint: fpResult.visitorId,
-              }),
+              body: JSON.stringify({}),
             }
           );
           const submissionSession = await submissionSessionRes.json();

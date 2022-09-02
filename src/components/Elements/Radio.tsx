@@ -12,13 +12,20 @@ interface Option {
 interface Props {
   name: string;
   label?: string;
+  help?: string;
   options: (Option | string)[];
   placeholder?: string;
   classNames: ClassNames;
   required?: boolean;
 }
 
-export const Radio: FC<Props> = ({ name, label, options, classNames }) => {
+export const Radio: FC<Props> = ({
+  name,
+  label,
+  help,
+  options,
+  classNames,
+}) => {
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
 
@@ -71,6 +78,11 @@ export const Radio: FC<Props> = ({ name, label, options, classNames }) => {
           ))}
         </div>
       </fieldset>
+      {help && (
+        <p className={classNames.help || 'mt-2 text-sm text-gray-500'}>
+          {help}
+        </p>
+      )}
     </div>
   );
 };

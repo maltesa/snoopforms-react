@@ -56,51 +56,52 @@ export const SnoopForm: FC<Props> = ({
   const [submissionSessionId, setSubmissionSessionId] = useState('');
 
   const handleSubmit = async (pageName: string) => {
-    let _submissionSessionId = submissionSessionId;
-    if (!localOnly) {
-      // create answer session if it don't exist
-      try {
-        if (!formId) {
-          console.warn(
-            `🦝 SnoopForms: formId not set. Skipping sending submission to snoopHub.`
-          );
-          return;
-        }
-        if (!_submissionSessionId) {
-          // create new submissionSession in snoopHub
+    console.log("toto");
+//     let _submissionSessionId = submissionSessionId;
+//     if (!localOnly) {
+//       // create answer session if it don't exist
+//       try {
+//         if (!formId) {
+//           console.warn(
+//             `🦝 SnoopForms: formId not set. Skipping sending submission to snoopHub.`
+//           );
+//           return;
+//         }
+//         if (!_submissionSessionId) {
+//           // create new submissionSession in snoopHub
 
-          const submissionSessionRes: any = await fetch(
-            `${protocol}://${domain}/api/forms/${formId}/submissionSessions`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({}),
-            }
-          );
-          const submissionSession = await submissionSessionRes.json();
-          _submissionSessionId = submissionSession.id;
-          setSubmissionSessionId(_submissionSessionId);
-        }
-        // send answer to snoop platform
-        await fetch(`${protocol}://${domain}/api/forms/${formId}/event`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            events: [
-              {
-                type: 'pageSubmission',
-                data: {
-                  pageName,
-                  submissionSessionId: _submissionSessionId,
-                  submission: submission[pageName],
-                },
-              },
-              // update schema
-              // TODO: do conditionally only when requested by the snoopHub
-              { type: 'updateSchema', data: schema },
-            ],
-          }),
-        });
+//           const submissionSessionRes: any = await fetch(
+//             `${protocol}://${domain}/api/forms/${formId}/submissionSessions`,
+//             {
+//               method: 'POST',
+//               headers: { 'Content-Type': 'application/json' },
+//               body: JSON.stringify({}),
+//             }
+//           );
+//           const submissionSession = await submissionSessionRes.json();
+//           _submissionSessionId = submissionSession.id;
+//           setSubmissionSessionId(_submissionSessionId);
+//         }
+//         // send answer to snoop platform
+//         await fetch(`${protocol}://${domain}/api/forms/${formId}/event`, {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json' },
+//           body: JSON.stringify({
+//             events: [
+//               {
+//                 type: 'pageSubmission',
+//                 data: {
+//                   pageName,
+//                   submissionSessionId: _submissionSessionId,
+//                   submission: submission[pageName],
+//                 },
+//               },
+//               // update schema
+//               // TODO: do conditionally only when requested by the snoopHub
+//               { type: 'updateSchema', data: schema },
+//             ],
+//           }),
+//         });
       } catch (e) {
         console.error(
           `🦝 SnoopForms: Unable to send submission to snoopHub. Error: ${e}`

@@ -102,11 +102,11 @@ export const SnoopForm: FC<Props> = ({
 //             ],
 //           }),
 //         });
-      } catch (e) {
-        console.error(
-          `🦝 SnoopForms: Unable to send submission to snoopHub. Error: ${e}`
-        );
-      }
+//       } catch (e) {
+//         console.error(
+//           `🦝 SnoopForms: Unable to send submission to snoopHub. Error: ${e}`
+//         );
+//       }
     }
     const maxPageIdx = schema.pages.length - 1;
     const hasThankYou = schema.pages[maxPageIdx].type === 'thankyou';

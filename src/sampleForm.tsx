@@ -6,9 +6,9 @@ import { SnoopForm, SnoopPage, SnoopElement } from './index';
 export const TessampleForm = () => {
   return (
     <div style={{ padding: '30px' }}>
-      <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd" initialTime={7200} 
-  countDown={true}>
-        <SnoopPage name="basicInfo">
+      <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
+        <SnoopPage name="basicInfo" initialTime={6} 
+  countDown={true} startDate={new Date('2022/09/15 14:00:00')}>
           <SnoopElement
             type="text"
             name="name"
@@ -38,24 +38,6 @@ export const TessampleForm = () => {
             help="Choose wisely"
           />
           <SnoopElement name="submit" type="submit" label="Submit" />
-        </SnoopPage>
-        <SnoopPage name="advancedInfo">
-          <SnoopElement
-            type="checkbox"
-            name="programming-lanuguages"
-            label="What programming languages do you love?"
-            options={['C++', 'Javascript', 'Scala', 'Assembler']}
-          />
-          <SnoopElement
-            type="radio"
-            name="favourite-food"
-            label="What's your favorite food?"
-            options={['Pizza', 'Pasta', 'Sushi']}
-          />
-          <SnoopElement name="submit" type="submit" label="Submit" />
-        </SnoopPage>
-        <SnoopPage name="thankyou" thankyou>
-          <p>Thanks a lot for your time and insights 🙏</p>
         </SnoopPage>
       </SnoopForm>
     </div>

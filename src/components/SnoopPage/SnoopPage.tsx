@@ -12,6 +12,9 @@ import {
   SchemaContext,
   SubmitHandlerContext,
 } from '../SnoopForm/SnoopForm';
+import {secondsToHms} from '../../lib/utils'
+
+import useCountDown from 'react-countdown-hook';
 
 export const PageContext = createContext('');
 
@@ -20,19 +23,42 @@ interface Props {
   className?: string;
   children?: ReactNode;
   thankyou?: boolean;
+  initialTime?: number;
+  countDown?: boolean;
+  startDate: Date
 }
 
 export const SnoopPage: FC<Props> = ({
+
   name,
   className,
   children,
-  thankyou = false,
+  thankyou,
+  initialTime=3600,
+  countDown,
+  startDate
 }) => {
   const { schema, setSchema } = useContext<any>(SchemaContext);
   const handleSubmit = useContext(SubmitHandlerContext);
   const [initializing, setInitializing] = useState(true);
   const { currentPageIdx } = useContext(CurrentPageContext);
 
+
+
+  const [timeLeft, { start }] = useCountDown(initialTime * 1000, 1000);
+
+  React.useEffect(() => {
+    if (countDown) {
+      start();
+    }
+  }, []);
+
+
+  if (timeLeft/1000 === 1) {
+    console.log("toto");
+    handleSubmit(name)
+  } 
+  
   useEffect(() => {
     setSchema((schema: any) => {
       const newSchema = { ...schema };
@@ -81,6 +107,8 @@ export const SnoopPage: FC<Props> = ({
   } else {
     return (
       <PageContext.Provider value={name}>
+        <p>{secondsToHms(timeLeft/1000)}</p>
+
         <form
           className={classNamesConcat(
             currentPageIdx ===

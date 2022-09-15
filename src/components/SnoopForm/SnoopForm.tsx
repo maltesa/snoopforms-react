@@ -1,6 +1,6 @@
-import React, { createContext, FC, ReactNode, useState } from 'react';
+import React, { createContext, FC, ReactNode, useState, useEffect } from 'react';
 import { classNamesConcat } from '../../lib/utils';
-import useCountDown from 'react-countdown-hook';
+
 
 
 export const SchemaContext = createContext({
@@ -41,13 +41,9 @@ export interface Props {
   className?: string;
   onSubmit?: (obj: onSubmitProps) => void;
   children?: ReactNode;
-  initialTime?: number, 
-  countDown?: boolean
 }
 
 export const SnoopForm: FC<Props> = ({
-  initialTime = 3600, 
-  countDown = false,
   domain = 'app.snoopforms.com',
   formId,
   protocol = 'https',
@@ -61,13 +57,8 @@ export const SnoopForm: FC<Props> = ({
   const [currentPageIdx, setCurrentPageIdx] = useState(0);
   const [submissionSessionId, setSubmissionSessionId] = useState('');
 
-  const [timeLeft, { start,  }] = useCountDown(initialTime * 1000, 1000);
 
-  React.useEffect(() => {
-    if (countDown) {
-      start();
-    }
-  }, []);
+ 
 
   const handleSubmit = async (pageName: string) => {
     console.log("form submited", pageName);
@@ -137,23 +128,6 @@ export const SnoopForm: FC<Props> = ({
   };
 
 
-  if (timeLeft <= 0) {
-    // handleSubmit()
-  }
-
-
-  function secondsToHms(seconds: number) {
-
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor(seconds % 3600 / 60);
-    const s = Math.floor(seconds % 3600 % 60);
-
-    const hDisplay =  h + (h <= 1 ? " hour, " : " hours, ");
-    const mDisplay =  m + (m <= 1 ? " minute, " : " minutes, ") ;
-    const sDisplay =  s + (s <= 1 ? " second" : " seconds");
-    return hDisplay + mDisplay + sDisplay; 
-}
-
   return (
     <SubmitHandlerContext.Provider value={handleSubmit}>
       <SchemaContext.Provider value={{ schema, setSchema }}>
@@ -161,7 +135,6 @@ export const SnoopForm: FC<Props> = ({
           <CurrentPageContext.Provider
             value={{ currentPageIdx, setCurrentPageIdx }}
           >
-            <p>{secondsToHms(timeLeft/1000)}</p>
             <div className={classNamesConcat('max-w-lg', className)}>
               {children}
             </div>

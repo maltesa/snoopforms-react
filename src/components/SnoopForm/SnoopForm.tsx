@@ -1,4 +1,4 @@
-import React, { createContext, FC, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, FC, ReactNode, useState } from 'react';
 import { classNamesConcat } from '../../lib/utils';
 
 

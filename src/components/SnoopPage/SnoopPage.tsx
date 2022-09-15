@@ -36,7 +36,7 @@ export const SnoopPage: FC<Props> = ({
   thankyou,
   initialTime=3600,
   countDown,
-  startDate
+  // startDate
 }) => {
   const { schema, setSchema } = useContext<any>(SchemaContext);
   const handleSubmit = useContext(SubmitHandlerContext);

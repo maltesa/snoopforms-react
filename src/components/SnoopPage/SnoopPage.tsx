@@ -107,8 +107,6 @@ export const SnoopPage: FC<Props> = ({
   } else {
     return (
       <PageContext.Provider value={name}>
-        <p>{secondsToHms(timeLeft/1000)}</p>
-
         <form
           className={classNamesConcat(
             currentPageIdx ===
@@ -120,6 +118,7 @@ export const SnoopPage: FC<Props> = ({
           )}
           onSubmit={onSubmit}
         >
+          <div><h2>{secondsToHms(timeLeft/1000)}</h2></div>
           {children}
         </form>
       </PageContext.Provider>

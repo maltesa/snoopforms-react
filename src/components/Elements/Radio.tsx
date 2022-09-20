@@ -49,10 +49,10 @@ export const Radio: FC<Props> = ({
               className="flex items-center"
             >
               <input
-                id={typeof option === 'object' ? option.value : option}
-                name={`${name}-${
+                id={`${name}-${
                   typeof option === 'object' ? option.value : option
                 }`}
+                name={name}
                 type="radio"
                 className={
                   classNames.element ||

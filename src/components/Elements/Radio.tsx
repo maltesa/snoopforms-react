@@ -50,7 +50,9 @@ export const Radio: FC<Props> = ({
             >
               <input
                 id={typeof option === 'object' ? option.value : option}
-                name="notification-method"
+                name={`${name}-${
+                  typeof option === 'object' ? option.value : option
+                }`}
                 type="radio"
                 className={
                   classNames.element ||
@@ -66,7 +68,9 @@ export const Radio: FC<Props> = ({
                 }
               />
               <label
-                htmlFor={typeof option === 'object' ? option.value : option}
+                htmlFor={`${name}-${
+                  typeof option === 'object' ? option.value : option
+                }`}
                 className={
                   classNames.elementLabel ||
                   'block ml-3 text-base font-medium text-gray-700'

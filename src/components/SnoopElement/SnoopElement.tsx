@@ -1,6 +1,7 @@
 import React, { FC, useContext, useEffect } from 'react';
 import { getOptionsSchema } from '../../lib/elements';
 import { ClassNames } from '../../types';
+import { ButtonLink } from '../Elements/ButtonLink';
 import { Checkbox } from '../Elements/Checkbox';
 import { Email } from '../Elements/Email';
 import { Number } from '../Elements/Number';
@@ -22,6 +23,7 @@ export interface SnoopElementProps {
   type: string;
   name: string;
   label?: string;
+  link?: string;
   help?: string;
   icon?: React.ReactNode;
   placeholder?: string;
@@ -35,6 +37,7 @@ export const SnoopElement: FC<SnoopElementProps> = ({
   type,
   name,
   label = undefined,
+  link = "",
   help = undefined,
   icon,
   placeholder,
@@ -135,6 +138,8 @@ export const SnoopElement: FC<SnoopElementProps> = ({
             />
           ) : type === 'submit' ? (
             <Submit label={label} classNames={classNames} />
+          ) : type === 'button-link' ? (
+            <ButtonLink linkTo={link} label={label} classNames={classNames} />
           ) : type === 'text' ? (
             <Text
               name={name}

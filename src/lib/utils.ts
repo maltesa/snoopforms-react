@@ -2,14 +2,15 @@ export const classNamesConcat = (...classes: any) => {
   return classes.filter(Boolean).join(' ');
 };
 
-export function secondsToHms(seconds: number) {
+export function secondsToHms(duration: number) {
+  const [H, M, S] = [3600, 60, 1].map(factor => {
+    let r = Math.floor(duration / factor);
+    duration = duration % factor;
+    return r;
+  });
 
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor(seconds % 3600 / 60);
-  const s = Math.floor(seconds % 3600 % 60);
-
-  const hDisplay =  h + (h <= 1 ? " hour, " : " hours, ");
-  const mDisplay =  m + (m <= 1 ? " minute, " : " minutes, ") ;
-  const sDisplay =  s + (s <= 1 ? " second" : " seconds");
-  return hDisplay + mDisplay + sDisplay; 
+  const h = H? H + ':': '';
+  const m = M||H? M.toString().padStart(2, '0') + ':': '';
+  const s = S.toString().padStart(2, '0')+(M||H? '':'s');
+  return h + m + s;
 }

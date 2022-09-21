@@ -15,6 +15,7 @@ import {
 import {secondsToHms} from '../../lib/utils'
 
 import useCountDown from 'react-countdown-hook';
+import { TimerBubble } from '../Elements/TimerBubble';
 
 export const PageContext = createContext('');
 
@@ -45,7 +46,7 @@ export const SnoopPage: FC<Props> = ({
 
 
 
-  const [timeLeft, { start }] = useCountDown(initialTime * 1000, 1000);
+  const [timeLeft, { start }] = useCountDown(initialTime * 1000 * 60, 1000);
 
   React.useEffect(() => {
     if (countDown) {
@@ -55,9 +56,10 @@ export const SnoopPage: FC<Props> = ({
 
 
   if (timeLeft/1000 === 1) {
-    console.log("toto");
-    handleSubmit(name)
-  } 
+    setTimeout(() => {
+      handleSubmit(name);
+    }, 1000);
+  }
   
   useEffect(() => {
     setSchema((schema: any) => {
@@ -107,7 +109,12 @@ export const SnoopPage: FC<Props> = ({
   } else {
     return (
       <PageContext.Provider value={name}>
-        <p>{secondsToHms(timeLeft/1000)}</p>
+        <div className="w-full items-start flex flex-col bg-white">
+          {
+            timeLeft ?
+            <TimerBubble classNames={{button: `bg-${timeLeft<61000? 'red': 'gray'}-600`}} label={secondsToHms((timeLeft-1)/1000)}></TimerBubble>: <></>
+          }
+        </div>
 
         <form
           className={classNamesConcat(

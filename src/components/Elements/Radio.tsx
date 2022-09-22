@@ -50,7 +50,7 @@ export const Radio: FC<Props> = ({
             >
               <input
                 id={typeof option === 'object' ? option.value : option}
-                name="notification-method"
+                name={name}
                 type="radio"
                 className={
                   classNames.element ||

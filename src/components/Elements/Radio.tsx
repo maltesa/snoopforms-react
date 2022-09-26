@@ -29,6 +29,7 @@ export const Radio: FC<Props> = ({
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
 
+
   return (
     <div>
       {label && (
@@ -43,13 +44,15 @@ export const Radio: FC<Props> = ({
       <fieldset className="mt-2">
         <legend className="sr-only">Please choose an option</legend>
         <div className="space-y-2">
-          {options.map(option => (
+          {options.map(option => {
+            const id = (typeof option === 'object' ? option.value + name : option + name).replace(/ /ig, "_")
+            return (
             <div
-              key={typeof option === 'object' ? option.value : option}
+              key={id}
               className="flex items-center"
             >
               <input
-                id={typeof option === 'object' ? option.value : option}
+                id={id}
                 name={name}
                 type="radio"
                 className={
@@ -66,7 +69,7 @@ export const Radio: FC<Props> = ({
                 }
               />
               <label
-                htmlFor={typeof option === 'object' ? option.value : option}
+                htmlFor={id}
                 className={
                   classNames.elementLabel ||
                   'block ml-3 text-base font-medium text-gray-700'
@@ -75,7 +78,7 @@ export const Radio: FC<Props> = ({
                 {typeof option === 'object' ? option.label : option}
               </label>
             </div>
-          ))}
+          )})}
         </div>
       </fieldset>
       {help && (

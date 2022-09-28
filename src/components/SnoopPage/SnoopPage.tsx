@@ -55,7 +55,7 @@ export const SnoopPage: FC<Props> = ({
   }, []);
 
 
-  if (timeLeft/1000 === 1) {
+  if (Math.ceil(timeLeft/1000) === 1) {
     setTimeout(() => {
       handleSubmit(name);
     }, 1000);

@@ -1,13 +1,8 @@
 import React, { FC, useContext } from 'react';
-import { setSubmissionValue } from '../../lib/elements';
-import { ClassNames } from '../../types';
+import { getOptionValue, setSubmissionValue } from '../../lib/elements';
+import { ClassNames, Option } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
-
-interface Option {
-  label: string;
-  value: string;
-}
 
 interface Props {
   name: string;
@@ -44,14 +39,9 @@ export const Radio: FC<Props> = ({
         <legend className="sr-only">Please choose an option</legend>
         <div className="space-y-2">
           {options.map(option => (
-            <div
-              key={typeof option === 'object' ? option.value : option}
-              className="flex items-center"
-            >
+            <div key={getOptionValue(option)} className="flex items-center">
               <input
-                id={`${name}-${
-                  typeof option === 'object' ? option.value : option
-                }`}
+                id={`${name}-${getOptionValue(option)}`}
                 name={name}
                 type="radio"
                 className={
@@ -60,7 +50,7 @@ export const Radio: FC<Props> = ({
                 }
                 onClick={() =>
                   setSubmissionValue(
-                    typeof option === 'object' ? option.value : option,
+                    getOptionValue(option),
                     pageName,
                     name,
                     setSubmission

@@ -2,12 +2,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { SnoopForm, SnoopPage, SnoopElement } from '@snoopforms/react';
-//import '../dist/styles.css';
+import '../dist/styles.css';
 
 const App = () => {
   return (
     <div style={{ padding: '30px' }}>
-      <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
+      <SnoopForm domain="app.snoopforms.com" protocol="https" formId="abcd">
         <SnoopPage name="basicInfo">
           <SnoopElement
             type="text"
@@ -24,15 +24,16 @@ const App = () => {
             required
           />
           <SnoopElement
-            type="checkbox"
+            type="cards"
             name="programming-lanuguages"
             label="What programming languages do you love?"
             options={['C++', 'Javascript', 'Scala', 'Assembler']}
+            cols={4}
             help="Choose wisely"
           />
           <SnoopElement
             type="radio"
-            name="programming-lanuguages"
+            name="foods"
             label="What's your favorite food?"
             options={['Pizza', 'Pasta', 'Sushi', 'Salad']}
             help="Choose wisely"

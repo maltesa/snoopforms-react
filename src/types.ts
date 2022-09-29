@@ -7,3 +7,8 @@ export interface ClassNames {
   elementLabel?: string;
   button?: string;
 }
+
+export interface Option {
+  label: string;
+  value: string;
+}

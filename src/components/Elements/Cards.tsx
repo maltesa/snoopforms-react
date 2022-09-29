@@ -60,28 +60,28 @@ export const Cards: FC<Props> = ({
         </RadioGroup.Label>
         <div
           className={classNamesConcat(
-            'grid grid-cols-1 gap-3',
+            'grid gap-3',
             (cols && cols === 1) || options.length === 1
-              ? 'sm:grid-cols-1'
+              ? 'grid-cols-1'
               : (cols && cols === 2) || options.length === 2
-              ? 'sm:grid-cols-2'
+              ? 'grid-cols-2'
               : (cols && cols === 3) || options.length === 3
-              ? 'sm:grid-cols-3'
+              ? 'grid-cols-3'
               : (cols && cols === 4) || options.length === 4
-              ? 'sm:grid-cols-4'
+              ? 'grid-cols-4'
               : (cols && cols === 5) || options.length === 5
-              ? 'sm:grid-cols-5'
+              ? 'grid-cols-5'
               : (cols && cols === 6) || options.length === 6
-              ? 'sm:grid-cols-6'
+              ? 'grid-cols-6'
               : (cols && cols === 7) || options.length === 7
-              ? 'sm:grid-cols-7'
+              ? 'grid-cols-7'
               : (cols && cols === 8) || options.length === 8
-              ? 'sm:grid-cols-8'
+              ? 'grid-cols-8'
               : (cols && cols === 9) || options.length === 9
-              ? 'sm:grid-cols-9'
+              ? 'grid-cols-9'
               : cols === 10
-              ? 'sm:grid-cols-10'
-              : 'sm:grid-cols-6'
+              ? 'grid-cols-10'
+              : 'grid-cols-1 sm:grid-cols-6'
           )}
         >
           {options.map(option => (

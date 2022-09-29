@@ -25,7 +25,7 @@ Use the SnoopForm components to build your form easily.
 ## Example
 
 ```jsx
-<SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
+<SnoopForm formId="abcd">
   <SnoopPage name="basicInfo">
     <SnoopElement
       type="text"

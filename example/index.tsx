@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div style={{ padding: '30px' }}>
       <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
-        <SnoopPage name="basicInfo" startDate={new Date()}>
+        <SnoopPage name="basicInfo">
           <SnoopElement
             type="text"
             name="name"
@@ -39,7 +39,7 @@ const App = () => {
           />
           <SnoopElement name="submit" type="submit" label="Submit" />
         </SnoopPage>
-        <SnoopPage name="advancedInfo" startDate={new Date()}>
+        <SnoopPage name="advancedInfo">
           <SnoopElement
             type="checkbox"
             name="programming-lanuguages"
@@ -54,7 +54,7 @@ const App = () => {
           />
           <SnoopElement name="submit" type="submit" label="Submit" />
         </SnoopPage>
-        <SnoopPage name="thankyou" thankyou startDate={new Date()}>
+        <SnoopPage name="thankyou">
           <p>Thanks a lot for your time and insights 🙏</p>
         </SnoopPage>
       </SnoopForm>

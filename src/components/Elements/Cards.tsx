@@ -1,5 +1,5 @@
 import { RadioGroup } from '@headlessui/react';
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { getOptionValue, setSubmissionValue } from '../../lib/elements';
 import { classNamesConcat } from '../../lib/utils';
 import { ClassNames, Option } from '../../types';
@@ -33,6 +33,14 @@ export const Cards: FC<Props> = ({
   const { submission, setSubmission }: any = useContext(SubmissionContext);
   const handleSubmit = useContext(SubmitHandlerContext);
   const pageName = useContext(PageContext);
+  const [triggerSubmit, setTriggerSubmit] = useState(false);
+
+  useEffect(() => {
+    if (triggerSubmit) {
+      handleSubmit(pageName);
+      setTriggerSubmit(false);
+    }
+  }, [triggerSubmit]);
 
   return (
     <div>
@@ -50,7 +58,8 @@ export const Cards: FC<Props> = ({
         onChange={(v: string) => {
           setSubmissionValue(getOptionValue(v), pageName, name, setSubmission);
           if (autoSubmit) {
-            handleSubmit(pageName);
+            // trigger submit at next rerender to await setSubmissionValue()
+            setTriggerSubmit(true);
           }
         }}
         className="mt-2"

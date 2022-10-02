@@ -109,10 +109,10 @@ export const SnoopPage: FC<Props> = ({
   } else {
     return (
       <PageContext.Provider value={name}>
-        <div className="w-full items-start flex flex-col bg-white">
+        <div className="w-full items-center flex flex-col mb-20">
           {
             timeLeft ?
-            <TimerBubble classNames={{button: `bg-${timeLeft<61000? 'red': 'gray'}-600`}} label={secondsToHms((timeLeft-1)/1000)}></TimerBubble>: <></>
+            <TimerBubble classNames={{button: `bg-${timeLeft<61000? 'red': 'gray'}-600 top-20 fixed`}} label={secondsToHms((timeLeft-1)/1000)}></TimerBubble>: <></>
           }
         </div>
 

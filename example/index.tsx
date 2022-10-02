@@ -54,7 +54,7 @@ const App = () => {
           />
           <SnoopElement name="submit" type="submit" label="Submit" />
         </SnoopPage>
-        <SnoopPage name="thankyou" thankyou>
+        <SnoopPage name="thankyou">
           <p>Thanks a lot for your time and insights 🙏</p>
         </SnoopPage>
       </SnoopForm>

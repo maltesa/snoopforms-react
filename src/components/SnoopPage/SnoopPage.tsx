@@ -26,7 +26,7 @@ interface Props {
   thankyou?: boolean;
   initialTime?: number;
   countDown?: boolean;
-  startDate: Date
+  time: number
 }
 
 export const SnoopPage: FC<Props> = ({
@@ -34,9 +34,9 @@ export const SnoopPage: FC<Props> = ({
   name,
   className,
   children,
-  thankyou,
-  initialTime=3600,
+  thankyou=false,
   countDown,
+  time
   // startDate
 }) => {
   const { schema, setSchema } = useContext<any>(SchemaContext);
@@ -46,7 +46,7 @@ export const SnoopPage: FC<Props> = ({
 
 
 
-  const [timeLeft, { start }] = useCountDown(initialTime * 1000 * 60, 1000);
+  const [timeLeft, { start }] = useCountDown(time, 1000);
 
   React.useEffect(() => {
     if (countDown) {
@@ -55,7 +55,7 @@ export const SnoopPage: FC<Props> = ({
   }, []);
 
 
-  if (timeLeft/1000 === 1) {
+  if (Math.ceil(timeLeft/1000) === 1) {
     setTimeout(() => {
       handleSubmit(name);
     }, 1000);

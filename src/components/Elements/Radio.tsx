@@ -7,6 +7,7 @@ import { PageContext } from '../SnoopPage/SnoopPage';
 interface Option {
   label: string;
   value: string;
+  image?: string;
 }
 
 interface Props {
@@ -29,7 +30,6 @@ export const Radio: FC<Props> = ({
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
 
-
   return (
     <div>
       {label && (
@@ -44,41 +44,50 @@ export const Radio: FC<Props> = ({
       <fieldset className="mt-2">
         <legend className="sr-only">Please choose an option</legend>
         <div className="space-y-2">
-          {options.map(option => {
-            const id = (typeof option === 'object' ? option.value + name : option + name).replace(/ /ig, "_")
+          {options.map((option, optionIdx) => {
+            const id = (typeof option === 'object'
+              ? optionIdx + name
+              : optionIdx + name
+            ).replace(/ /gi, '_');
             return (
-            <div
-              key={id}
-              className="flex items-center"
-            >
-              <input
-                id={id}
-                name={name}
-                type="radio"
-                className={
-                  classNames.element ||
-                  'focus:ring-slate-500 h-4 w-4 text-slate-600 border-gray-300'
-                }
-                onClick={() =>
-                  setSubmissionValue(
-                    typeof option === 'object' ? option.value : option,
-                    pageName,
-                    name,
-                    setSubmission
-                  )
-                }
-              />
-              <label
-                htmlFor={id}
-                className={
-                  classNames.elementLabel ||
-                  'block ml-3 text-base font-medium text-gray-700'
-                }
-              >
-                {typeof option === 'object' ? option.label : option}
-              </label>
-            </div>
-          )})}
+              <div key={id} className="flex items-center">
+                <input
+                  id={id}
+                  name={name}
+                  type="radio"
+                  className={
+                    classNames.element ||
+                    'focus:ring-slate-500 h-4 w-4 text-slate-600 border-gray-300'
+                  }
+                  onClick={() =>
+                    setSubmissionValue(
+                      typeof option === 'object' ? option.value : option,
+                      pageName,
+                      name,
+                      setSubmission
+                    )
+                  }
+                />
+                <label
+                  htmlFor={id}
+                  className={
+                    classNames.elementLabel ||
+                    'block ml-3 text-base font-medium text-gray-700'
+                  }
+                >
+                  {typeof option === 'object' ? (
+                    <div className="flex items-center gap-4">
+                      {option.label}
+                      <img src={option.image} alt="" />
+                    </div>
+                  ) : (
+                    option
+                  )}
+                </label>
+                <div></div>
+              </div>
+            );
+          })}
         </div>
       </fieldset>
       {help && (

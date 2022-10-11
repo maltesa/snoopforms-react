@@ -1,8 +1,6 @@
 import React, { createContext, FC, ReactNode, useState } from 'react';
 import { classNamesConcat } from '../../lib/utils';
 
-
-
 export const SchemaContext = createContext({
   schema: { pages: [] },
   setSchema: (schema: any) => {
@@ -57,12 +55,7 @@ export const SnoopForm: FC<Props> = ({
   const [currentPageIdx, setCurrentPageIdx] = useState(0);
   const [submissionSessionId, setSubmissionSessionId] = useState('');
 
-
- 
-
   const handleSubmit = async (pageName: string) => {
-    console.log("form submited", pageName);
-    
     let _submissionSessionId = submissionSessionId;
     if (!localOnly) {
       // create answer session if it don't exist
@@ -126,7 +119,6 @@ export const SnoopForm: FC<Props> = ({
       return onSubmit({ submission, schema });
     }
   };
-
 
   return (
     <SubmitHandlerContext.Provider value={handleSubmit}>

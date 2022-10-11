@@ -61,7 +61,7 @@ export const Radio: FC<Props> = ({
                   }
                   onClick={() =>
                     setSubmissionValue(
-                      typeof option === 'object' ? option.value : option,
+                      typeof option === 'object' ? option.label : option,
                       pageName,
                       name,
                       setSubmission

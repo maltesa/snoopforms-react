@@ -26,6 +26,7 @@ export const Radio: FC<Props> = ({
   help,
   options,
   classNames,
+  required
 }) => {
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
@@ -39,6 +40,7 @@ export const Radio: FC<Props> = ({
           }
         >
           {label}
+          {required ? <span className='text-red-600'>*</span>:<></>}
         </label>
       )}
       <fieldset className="mt-2">

@@ -80,7 +80,7 @@ export const Radio: FC<Props> = ({
                   {typeof option === 'object' ? (
                     <div className="flex items-center gap-4">
                       {option.label}
-                      <img src={option.image} alt="" />
+                      <img src = {option.image} alt = "" className = "w-2/5 border" />
                     </div>
                   ) : (
                     option

@@ -36,7 +36,7 @@ export const Phone: FC<Props> = ({
           }
         >
           {label}
-          {required ? <span className='text-red-600'>*</span>:<></>}
+          {required ? <span className="text-red-600">*</span> : <></>}
         </label>
       )}
       <div className="relative mt-1 rounded-md shadow-sm">
@@ -56,6 +56,10 @@ export const Phone: FC<Props> = ({
               'block w-full border-gray-300 rounded-md focus:ring-slate-500 focus:border-slate-500 sm:text-sm'
           )}
           placeholder={placeholder}
+          pattern="^(\+243|0)[0-9]{9}$"
+          onInvalid={(e: any) =>
+            e.target.setCustomValidity('please enter a valid phone number')
+          }
           onChange={e =>
             setSubmissionValue(e.target.value, pageName, name, setSubmission)
           }

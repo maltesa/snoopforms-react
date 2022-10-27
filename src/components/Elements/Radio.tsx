@@ -1,4 +1,5 @@
 import React, { FC, useContext } from 'react';
+import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
 import { ClassNames } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
@@ -17,6 +18,7 @@ interface Props {
   placeholder?: string;
   classNames: ClassNames;
   required?: boolean;
+  defaultValue?: string;
 }
 
 export const Radio: FC<Props> = ({
@@ -25,10 +27,12 @@ export const Radio: FC<Props> = ({
   help,
   options,
   classNames,
+  defaultValue,
 }) => {
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
 
+  useDefaultValue({ pageName, name, defaultValue });
 
   return (
     <div>
@@ -45,40 +49,56 @@ export const Radio: FC<Props> = ({
         <legend className="sr-only">Please choose an option</legend>
         <div className="space-y-2">
           {options.map(option => {
-            const id = (typeof option === 'object' ? option.value + name : option + name).replace(/ /ig, "_")
+            const id = (typeof option === 'object'
+              ? option.label + name
+              : option + name
+            ).replace(/ /gi, '_');
             return (
-            <div
-              key={id}
-              className="flex items-center"
-            >
-              <input
-                id={id}
-                name={name}
-                type="radio"
-                className={
-                  classNames.element ||
-                  'focus:ring-slate-500 h-4 w-4 text-slate-600 border-gray-300'
-                }
-                onClick={() =>
-                  setSubmissionValue(
-                    typeof option === 'object' ? option.value : option,
-                    pageName,
-                    name,
-                    setSubmission
-                  )
-                }
-              />
-              <label
-                htmlFor={id}
-                className={
-                  classNames.elementLabel ||
-                  'block ml-3 text-base font-medium text-gray-700'
-                }
+              <div
+                key={typeof option === 'object' ? option.label : option}
+                className="flex items-center"
               >
-                {typeof option === 'object' ? option.label : option}
-              </label>
-            </div>
-          )})}
+                <input
+                  defaultChecked={
+                    (typeof option === 'object' ? option.label : option) ===
+                    defaultValue
+                  }
+                  id={id}
+                  name={name}
+                  type="radio"
+                  className={
+                    classNames.element ||
+                    'focus:ring-slate-500 h-4 w-4 text-slate-600 border-gray-300'
+                  }
+                  onChange={() =>
+                    setSubmissionValue(
+                      typeof option === 'object' ? option.label : option,
+                      pageName,
+                      name,
+                      setSubmission
+                    )
+                  }
+                  onClick={() =>
+                    setSubmissionValue(
+                      typeof option === 'object' ? option.label : option,
+                      pageName,
+                      name,
+                      setSubmission
+                    )
+                  }
+                />
+                <label
+                  htmlFor={id}
+                  className={
+                    classNames.elementLabel ||
+                    'block ml-3 text-base font-medium text-gray-700'
+                  }
+                >
+                  {typeof option === 'object' ? option.label : option}
+                </label>
+              </div>
+            );
+          })}
         </div>
       </fieldset>
       {help && (

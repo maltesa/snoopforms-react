@@ -2,20 +2,11 @@ import React, { FC, useContext } from 'react';
 import { setSubmissionValue } from '../../lib/elements';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
-import { ClassNames } from '../../types';
+import { TextFieldProps } from '../../types';
 import { classNamesConcat } from '../../lib/utils';
+import useDefaultValue from '../../hooks/useDefaultValue';
 
-interface Props {
-  name: string;
-  label?: string;
-  help?: string;
-  placeholder?: string;
-  rows?: number;
-  classNames: ClassNames;
-  required: boolean;
-}
-
-export const Textarea: FC<Props> = ({
+export const Textarea: FC<TextFieldProps> = ({
   name,
   label,
   help,
@@ -23,9 +14,12 @@ export const Textarea: FC<Props> = ({
   placeholder,
   rows,
   required,
+  defaultValue,
 }) => {
   const { setSubmission } = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
+
+  useDefaultValue({ pageName, name, defaultValue });
   return (
     <div>
       {label && (

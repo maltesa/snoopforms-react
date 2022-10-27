@@ -31,19 +31,21 @@ export interface SnoopElementProps {
   required?: boolean;
   options?: Option[] | string[];
   rows?: number;
+  defaultValue?: string | string[];
 }
 
 export const SnoopElement: FC<SnoopElementProps> = ({
   type,
   name,
   label = undefined,
-  link = "",
+  link = '',
   help = undefined,
   icon,
   placeholder,
   classNames = {},
   required = false,
   options,
+  defaultValue,
   rows,
 }) => {
   const { schema, setSchema } = useContext(SchemaContext);
@@ -94,6 +96,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               label={label}
               help={help}
               classNames={classNames}
+              defaultValue={
+                typeof defaultValue === 'string' ? [] : defaultValue
+              }
               required={required}
               options={options || []}
             />
@@ -116,6 +121,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               placeholder={placeholder}
               classNames={classNames}
               required={required}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
             />
           ) : type === 'phone' ? (
             <Phone
@@ -135,6 +143,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               classNames={classNames}
               required={required}
               options={options || []}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
             />
           ) : type === 'submit' ? (
             <Submit label={label} classNames={classNames} />
@@ -144,6 +155,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
             <Text
               name={name}
               label={label}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
               help={help}
               Icon={icon}
               placeholder={placeholder}

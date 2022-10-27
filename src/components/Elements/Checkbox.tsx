@@ -1,4 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
+import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
 import { ClassNames } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
@@ -17,6 +18,7 @@ interface Props {
   placeholder?: string;
   classNames: ClassNames;
   required?: boolean;
+  defaultValue?: string[];
 }
 
 export const Checkbox: FC<Props> = ({
@@ -25,6 +27,7 @@ export const Checkbox: FC<Props> = ({
   help,
   options,
   classNames,
+  defaultValue,
 }) => {
   const [checked, setChecked] = useState<string[]>([]);
   const { setSubmission }: any = useContext(SubmissionContext);
@@ -33,6 +36,8 @@ export const Checkbox: FC<Props> = ({
   useEffect(() => {
     setSubmissionValue(checked, pageName, name, setSubmission);
   }, [checked]);
+
+  useDefaultValue({ pageName, name, defaultValue });
 
   return (
     <div>
@@ -49,26 +54,24 @@ export const Checkbox: FC<Props> = ({
         {options.map(option => (
           <div
             className="relative flex items-start"
-            key={typeof option === 'object' ? option.value : option}
+            key={typeof option === 'object' ? option.label : option}
           >
             <div className="flex items-center h-5">
               <input
-                id={typeof option === 'object' ? option.value : option}
-                name={typeof option === 'object' ? option.value : option}
+                id={typeof option === 'object' ? option.label : option}
+                name={typeof option === 'object' ? option.label : option}
                 type="checkbox"
                 className={
                   classNames.element ||
                   'focus:ring-slate-500 h-4 w-4 text-slate-600 border-gray-300 rounded-sm'
                 }
-                checked={
-                  typeof option === 'object'
-                    ? checked.includes(option.value)
-                    : checked.includes(option)
-                }
+                defaultChecked={defaultValue?.includes(
+                  typeof option === 'object' ? option.label : option
+                )}
                 onChange={e => {
                   const newChecked: string[] = [...checked];
                   const value =
-                    typeof option === 'object' ? option.value : option;
+                    typeof option === 'object' ? option.label : option;
                   if (e.target.checked) {
                     newChecked.push(value);
                   } else {
@@ -84,7 +87,7 @@ export const Checkbox: FC<Props> = ({
             </div>
             <div className="ml-3 text-base">
               <label
-                htmlFor={typeof option === 'object' ? option.value : option}
+                htmlFor={typeof option === 'object' ? option.label : option}
                 className={
                   classNames.elementLabel || 'font-medium text-gray-700'
                 }

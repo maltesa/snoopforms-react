@@ -19,3 +19,8 @@ export interface TextFieldProps {
   defaultValue?: string | number;
   rows?: number;
 }
+
+export interface Option {
+  label: string;
+  value: string;
+}

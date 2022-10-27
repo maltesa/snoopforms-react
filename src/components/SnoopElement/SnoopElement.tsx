@@ -2,6 +2,7 @@ import React, { FC, useContext, useEffect } from 'react';
 import { getOptionsSchema } from '../../lib/elements';
 import { ClassNames } from '../../types';
 import { ButtonLink } from '../Elements/ButtonLink';
+import { Cards } from '../Elements/Cards';
 import { Checkbox } from '../Elements/Checkbox';
 import { Email } from '../Elements/Email';
 import { Number } from '../Elements/Number';
@@ -30,8 +31,10 @@ export interface SnoopElementProps {
   classNames?: ClassNames;
   required?: boolean;
   options?: Option[] | string[];
+  cols?: number;
   rows?: number;
   defaultValue?: string | string[];
+  autoSubmit?: boolean;
 }
 
 export const SnoopElement: FC<SnoopElementProps> = ({
@@ -46,7 +49,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
   required = false,
   options,
   defaultValue,
+  cols,
   rows,
+  autoSubmit = false,
 }) => {
   const { schema, setSchema } = useContext(SchemaContext);
   const pageName = useContext(PageContext);
@@ -90,7 +95,18 @@ export const SnoopElement: FC<SnoopElementProps> = ({
       {currentPageIdx ===
         schema.pages.findIndex((p: any) => p.name === pageName) && (
         <div>
-          {type === 'checkbox' ? (
+          {type === 'cards' ? (
+            <Cards
+              name={name}
+              label={label}
+              help={help}
+              cols={cols}
+              classNames={classNames}
+              required={required}
+              options={options || []}
+              autoSubmit={autoSubmit}
+            />
+          ) : type === 'checkbox' ? (
             <Checkbox
               name={name}
               label={label}

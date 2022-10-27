@@ -5,11 +5,6 @@ import { ClassNames } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
 
-interface Option {
-  label: string;
-  value: string;
-}
-
 interface Props {
   name: string;
   label?: string;

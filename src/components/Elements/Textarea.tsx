@@ -36,6 +36,7 @@ export const Textarea: FC<Props> = ({
           }
         >
           {label}
+          {required ? <span className='text-red-600'>*</span>:<></>}
         </label>
       )}
       <div className="mt-1">

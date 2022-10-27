@@ -54,14 +54,14 @@ export const SnoopElement: FC<SnoopElementProps> = ({
     setSchema((schema: any) => {
       if (pageName === '') {
         console.warn(
-          `🦝 SnoopForms: An Element must always be a child of a page!`
+          `KDA Sourcing: An Element must always be a child of a page!`
         );
         return;
       }
       const newSchema = { ...schema };
       let pageIdx = newSchema.pages.findIndex((p: any) => p.name === pageName);
       if (pageIdx === -1) {
-        console.warn(`🦝 SnoopForms: Error accessing page`);
+        console.warn(`KDA Sourcing: Error accessing page`);
         return;
       }
       let elementIdx = newSchema.pages[pageIdx].elements.findIndex(

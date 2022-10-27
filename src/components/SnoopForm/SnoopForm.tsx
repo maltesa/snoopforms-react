@@ -56,7 +56,6 @@ export const SnoopForm: FC<Props> = ({
   const [submissionSessionId, setSubmissionSessionId] = useState('');
 
   const handleSubmit = async (pageName: string) => {
-    console.log('form submited', pageName);
 
     let _submissionSessionId = submissionSessionId;
     if (!localOnly) {

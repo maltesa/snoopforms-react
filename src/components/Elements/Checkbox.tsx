@@ -28,6 +28,7 @@ export const Checkbox: FC<Props> = ({
   options,
   classNames,
   defaultValue,
+  required
 }) => {
   const [checked, setChecked] = useState<string[]>([]);
   const { setSubmission }: any = useContext(SubmissionContext);
@@ -48,6 +49,7 @@ export const Checkbox: FC<Props> = ({
           }
         >
           {label}
+          {required ? <span className='text-red-600'>*</span>:<></>}
         </label>
       )}
       <div className="mt-2 space-y-2">

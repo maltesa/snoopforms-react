@@ -29,6 +29,7 @@ export const Website: FC<TextFieldProps> = ({
           }
         >
           {label}
+          {required ? <span className='text-red-600'>*</span>:<></>}
         </label>
       )}
       <div className="relative mt-1 rounded-md shadow-sm">

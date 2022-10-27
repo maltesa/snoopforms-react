@@ -1,4 +1,5 @@
 import React, { FC, useContext } from 'react';
+import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
 import { classNamesConcat } from '../../lib/utils';
 import { ClassNames } from '../../types';
@@ -13,6 +14,7 @@ interface Props {
   placeholder?: string;
   classNames: ClassNames;
   required: boolean;
+  defaultValue?: string;
 }
 
 export const Email: FC<Props> = ({
@@ -23,9 +25,13 @@ export const Email: FC<Props> = ({
   classNames,
   placeholder,
   required,
+  defaultValue,
 }) => {
   const { setSubmission } = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
+
+  useDefaultValue({ pageName, name, defaultValue });
+
   return (
     <div>
       {label && (

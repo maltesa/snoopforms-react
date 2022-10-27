@@ -56,6 +56,7 @@ export const SnoopForm: FC<Props> = ({
   const [submissionSessionId, setSubmissionSessionId] = useState('');
 
   const handleSubmit = async (pageName: string) => {
+
     let _submissionSessionId = submissionSessionId;
     if (!localOnly) {
       // create answer session if it don't exist

@@ -1,8 +1,10 @@
 import React, { FC, useContext } from 'react';
+import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
 import { ClassNames } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
+
 
 interface Option {
   label: string;
@@ -18,6 +20,7 @@ interface Props {
   placeholder?: string;
   classNames: ClassNames;
   required?: boolean;
+  defaultValue?: string;
 }
 
 export const Radio: FC<Props> = ({
@@ -26,10 +29,13 @@ export const Radio: FC<Props> = ({
   help,
   options,
   classNames,
+  defaultValue,
   required
 }) => {
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
+  
+  useDefaultValue({ pageName, name, defaultValue });
 
   return (
     <div>
@@ -46,14 +52,22 @@ export const Radio: FC<Props> = ({
       <fieldset className="mt-2">
         <legend className="sr-only">Please choose an option</legend>
         <div className="space-y-2">
-          {options.map((option, optionIdx) => {
+          {options.map(option => {
             const id = (typeof option === 'object'
-              ? optionIdx + name
-              : optionIdx + name
+              ? option.label + name
+              : option + name
             ).replace(/ /gi, '_');
             return (
-              <div key={id} className="flex items-center">
+              <div
+                key={typeof option === 'object' ? option.label : option}
+                className="flex items-center"
+              >
                 <input
+                  defaultChecked={
+                    (typeof option === 'object' ? option.label : option) ===
+                    defaultValue
+                  }
+
                   id={id}
                   name={name}
                   type="radio"
@@ -61,6 +75,15 @@ export const Radio: FC<Props> = ({
                     classNames.element ||
                     'focus:ring-slate-500 h-4 w-4 text-slate-600 border-gray-300'
                   }
+                  onChange={() =>
+                    setSubmissionValue(
+                      typeof option === 'object' ? option.label : option,
+                      pageName,
+                      name,
+                      setSubmission
+                    )
+                  }
+
                   onClick={() =>
                     setSubmissionValue(
                       typeof option === 'object' ? option.label : option,

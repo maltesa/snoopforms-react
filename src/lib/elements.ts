@@ -1,3 +1,5 @@
+import { Option } from '../types';
+
 export const setSubmissionValue = (
   v: any,
   pageName: string,
@@ -32,3 +34,7 @@ export const getOptionsSchema = (options: any[] | undefined) => {
   }
   return newOptions;
 };
+
+export function getOptionValue(option: string | Option) {
+  return typeof option === 'object' ? option.value : option;
+}

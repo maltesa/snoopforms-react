@@ -1,21 +1,12 @@
 import React, { FC, useContext } from 'react';
+import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
 import { classNamesConcat } from '../../lib/utils';
-import { ClassNames } from '../../types';
+import { TextFieldProps } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
 
-interface Props {
-  name: string;
-  label?: string;
-  help?: string;
-  Icon?: React.ReactNode;
-  placeholder?: string;
-  classNames: ClassNames;
-  required: boolean;
-}
-
-export const Phone: FC<Props> = ({
+export const Phone: FC<TextFieldProps> = ({
   name,
   label,
   help,
@@ -23,9 +14,13 @@ export const Phone: FC<Props> = ({
   classNames,
   placeholder,
   required,
+  defaultValue,
 }) => {
   const { setSubmission } = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
+
+  useDefaultValue({ pageName, name, defaultValue });
+
   return (
     <div>
       {label && (

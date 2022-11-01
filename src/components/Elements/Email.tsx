@@ -41,8 +41,8 @@ export const Email: FC<Props> = ({
             classNames.label || 'block text-sm font-medium text-gray-700'
           }
         >
+          {required ? <span className="text-red-600">*</span> : <></>}
           {label}
-          {required ? <span className='text-red-600'>*</span>:<></>}
         </label>
       )}
       <div className="relative mt-1 rounded-md shadow-sm">

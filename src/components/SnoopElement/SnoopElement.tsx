@@ -127,6 +127,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               placeholder={placeholder}
               classNames={classNames}
               required={required}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
             />
           ) : type === 'number' ? (
             <Number
@@ -150,6 +153,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               placeholder={placeholder}
               classNames={classNames}
               required={required}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
             />
           ) : type === 'radio' ? (
             <Radio
@@ -189,6 +195,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               placeholder={placeholder}
               classNames={classNames}
               required={required}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
             />
           ) : type === 'website' ? (
             <Website
@@ -199,6 +208,9 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               placeholder={placeholder}
               classNames={classNames}
               required={required}
+              defaultValue={
+                typeof defaultValue === 'string' ? defaultValue : ''
+              }
             />
           ) : null}
         </div>

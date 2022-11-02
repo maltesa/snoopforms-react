@@ -41,13 +41,14 @@ export const Website: FC<TextFieldProps> = ({
 
         <input
           type="url"
+          name={name}
+          id={`input-${name}`}
+          defaultValue={defaultValue}
           pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
           onInvalid={(e: any) =>
             e.target.setCustomValidity('please provide a valid website address')
           }
           onInput={(e: any) => e.target.setCustomValidity('')}
-          name={name}
-          id={`input-${name}`}
           className={classNamesConcat(
             Icon ? 'pl-10' : '',
             classNames.element ||

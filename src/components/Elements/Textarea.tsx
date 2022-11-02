@@ -20,6 +20,7 @@ export const Textarea: FC<TextFieldProps> = ({
   const pageName = useContext(PageContext);
 
   useDefaultValue({ pageName, name, defaultValue });
+
   return (
     <div>
       {label && (
@@ -30,19 +31,20 @@ export const Textarea: FC<TextFieldProps> = ({
           }
         >
           {label}
-          {required ? <span className='text-red-600'>*</span>:<></>}
+          {required ? <span className="text-red-600">*</span> : <></>}
         </label>
       )}
       <div className="mt-1">
         <textarea
-          rows={rows}
           name={name}
           id={`input-${name}`}
+          defaultValue={defaultValue}
+          rows={rows}
+          placeholder={placeholder}
           className={classNamesConcat(
             'block w-full border border-gray-300 rounded-md shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm',
             classNames.element
           )}
-          placeholder={placeholder}
           onChange={e =>
             setSubmissionValue(e.target.value, pageName, name, setSubmission)
           }

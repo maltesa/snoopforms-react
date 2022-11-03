@@ -30,7 +30,7 @@ export const Textarea: FC<TextFieldProps> = ({
           }
         >
           {label}
-          {required ? <span className='text-red-600'>*</span>:<></>}
+          {required ? <span className="text-red-600">*</span> : <></>}
         </label>
       )}
       <div className="mt-1">
@@ -47,6 +47,7 @@ export const Textarea: FC<TextFieldProps> = ({
             setSubmissionValue(e.target.value, pageName, name, setSubmission)
           }
           required={required}
+          defaultValue={defaultValue}
         />
       </div>
       {help && (

@@ -59,6 +59,7 @@ export const Phone: FC<TextFieldProps> = ({
             setSubmissionValue(e.target.value, pageName, name, setSubmission)
           }
           required={required}
+          defaultValue={defaultValue}
         />
       </div>
       {help && (

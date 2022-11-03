@@ -43,6 +43,7 @@ export const Phone: FC<TextFieldProps> = ({
 
         <input
           type="tel"
+          defaultValue={defaultValue}
           name={name}
           id={`input-${name}`}
           className={classNamesConcat(

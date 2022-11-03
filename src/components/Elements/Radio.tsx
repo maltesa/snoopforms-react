@@ -1,10 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { FC, useContext } from 'react';
 import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
 import { ClassNames } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
-
 
 interface Option {
   label: string;
@@ -30,11 +30,11 @@ export const Radio: FC<Props> = ({
   options,
   classNames,
   defaultValue,
-  required
+  required,
 }) => {
   const { setSubmission }: any = useContext(SubmissionContext);
   const pageName = useContext(PageContext);
-  
+
   useDefaultValue({ pageName, name, defaultValue });
 
   return (
@@ -46,7 +46,7 @@ export const Radio: FC<Props> = ({
           }
         >
           {label}
-          {required ? <span className='text-red-600'>*</span>:<></>}
+          {required ? <span className="text-red-600">*</span> : <></>}
         </label>
       )}
       <fieldset className="mt-2">
@@ -67,7 +67,6 @@ export const Radio: FC<Props> = ({
                     (typeof option === 'object' ? option.label : option) ===
                     defaultValue
                   }
-
                   id={id}
                   name={name}
                   type="radio"
@@ -83,7 +82,6 @@ export const Radio: FC<Props> = ({
                       setSubmission
                     )
                   }
-
                   onClick={() =>
                     setSubmissionValue(
                       typeof option === 'object' ? option.label : option,
@@ -103,7 +101,13 @@ export const Radio: FC<Props> = ({
                   {typeof option === 'object' ? (
                     <div className="flex items-center gap-4">
                       {option.label}
-                      <img src = {option.image} alt = "" className = "w-2/5 border" />
+                      {option.image && (
+                        <img
+                          src={option.image}
+                          alt={label}
+                          className="w-2/5 border"
+                        />
+                      )}
                     </div>
                   ) : (
                     option

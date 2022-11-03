@@ -20,7 +20,7 @@ export default meta;
 
 const Template: Story<SnoopElementProps> = args => (
   <SnoopForm localOnly={true}>
-    <SnoopPage name="snoopElement">
+    <SnoopPage name="snoopElement" time={0}>
       <SnoopElement {...args} />
     </SnoopPage>
   </SnoopForm>

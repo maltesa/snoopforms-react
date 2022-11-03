@@ -1,14 +1,14 @@
 //import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { SnoopForm, SnoopPage, SnoopElement } from '@snoopforms/react';
+import { SnoopForm, SnoopPage, SnoopElement } from '../src';
 import '../dist/styles.css';
 
 const App = () => {
   return (
     <div style={{ padding: '30px' }}>
       <SnoopForm domain="app.snoopforms.com" protocol="https" formId="abcd">
-        <SnoopPage name="basicInfo">
+        <SnoopPage name="basicInfo" time={0}>
           <SnoopElement
             type="text"
             name="name"
@@ -40,7 +40,7 @@ const App = () => {
           />
           <SnoopElement name="submit" type="submit" label="Submit" />
         </SnoopPage>
-        <SnoopPage name="advancedInfo">
+        <SnoopPage name="advancedInfo" time={0}>
           <SnoopElement
             type="checkbox"
             name="programming-lanuguages"
@@ -55,7 +55,7 @@ const App = () => {
           />
           <SnoopElement name="submit" type="submit" label="Submit" />
         </SnoopPage>
-        <SnoopPage name="thankyou">
+        <SnoopPage name="thankyou" time={0}>
           <p>Thanks a lot for your time and insights 🙏</p>
         </SnoopPage>
       </SnoopForm>

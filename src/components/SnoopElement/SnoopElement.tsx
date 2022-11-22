@@ -213,6 +213,14 @@ export const SnoopElement: FC<SnoopElementProps> = ({
               }
             />
           ) : null}
+          {!['submit', 'button-link'].includes(type) ? (
+            <>
+              <br />
+              <hr />
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </div>

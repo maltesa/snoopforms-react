@@ -1,80 +1,115 @@
-import React, { createContext, FC, ReactNode, useState } from "react";
+import React, { createContext, FC, ReactNode, useState } from 'react';
+import { classNamesConcat } from '../../lib/utils';
 
 export const SchemaContext = createContext({
   schema: { pages: [] },
   setSchema: (schema: any) => {
-    // do nothing
+    console.log(schema);
   },
 });
 
 export const SubmissionContext = createContext({
   submission: {},
   setSubmission: (submission: any) => {
-    // do nothing
+    console.log(submission);
   },
 });
 
 export const CurrentPageContext = createContext({
   currentPageIdx: 0,
   setCurrentPageIdx: (currentPageIdx: number) => {
-    // do nothing
+    console.log(currentPageIdx);
   },
 });
 
-export const SubmitHandlerContext = createContext((pageName: string) => {});
+export const SubmitHandlerContext = createContext((pageName: string) => {
+  console.log(pageName);
+});
 
 interface onSubmitProps {
   submission: any;
   schema: any;
 }
 
-interface Props {
-  domain: string;
-  formId: string;
-  protocol?: "http" | "https";
+export interface Props {
+  domain?: string;
+  formId?: string;
+  protocol?: 'http' | 'https';
+  localOnly?: boolean;
   className?: string;
   onSubmit?: (obj: onSubmitProps) => void;
   children?: ReactNode;
 }
 
 export const SnoopForm: FC<Props> = ({
-  domain = "app.snoopforms.com",
+  domain = 'app.snoopforms.com',
   formId,
-  protocol = "https",
-  className = "",
+  protocol = 'https',
+  localOnly = false,
+  className = '',
   onSubmit = (): any => {},
   children,
 }) => {
   const [schema, setSchema] = useState<any>({ pages: [] });
   const [submission, setSubmission] = useState<any>({});
   const [currentPageIdx, setCurrentPageIdx] = useState(0);
-  const [answerSessionId, setAnswerSessionId] = useState("");
+  const [submissionSessionId, setSubmissionSessionId] = useState('');
 
   const handleSubmit = async (pageName: string) => {
-    let _answerSessionId = answerSessionId;
-    // create answer session if it don't exist
-    if (!_answerSessionId) {
-      const answerSession: any = await fetch(
-        `${protocol}://${domain}/api/forms/${formId}/answerSessions/`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+
+    let _submissionSessionId = submissionSessionId;
+    if (!localOnly) {
+      // create answer session if it don't exist
+      try {
+        if (!formId) {
+          console.warn(
+            `🦝 SnoopForms: formId not set. Skipping sending submission to snoopHub.`
+          );
+          return;
         }
-      );
-      _answerSessionId = answerSession.id;
-      setAnswerSessionId(_answerSessionId);
-    }
-    // send answer to snoop platform
-    await fetch(
-      `${protocol}://${domain}/api/forms/${formId}/answerSessions/${_answerSessionId}/answers`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pageName, submission: submission[pageName] }),
+        if (!_submissionSessionId) {
+          // create new submissionSession in snoopHub
+
+          const submissionSessionRes: any = await fetch(
+            `${protocol}://${domain}/api/forms/${formId}/submissionSessions`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({}),
+            }
+          );
+          const submissionSession = await submissionSessionRes.json();
+          _submissionSessionId = submissionSession.id;
+          setSubmissionSessionId(_submissionSessionId);
+        }
+        // send answer to snoop platform
+        await fetch(`${protocol}://${domain}/api/forms/${formId}/event`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            events: [
+              {
+                type: 'pageSubmission',
+                data: {
+                  pageName,
+                  submissionSessionId: _submissionSessionId,
+                  submission: submission[pageName],
+                },
+              },
+              // update schema
+              // TODO: do conditionally only when requested by the snoopHub
+              { type: 'updateSchema', data: schema },
+            ],
+          }),
+        });
+      } catch (e) {
+        console.error(
+          `🦝 SnoopForms: Unable to send submission to snoopHub. Error: ${e}`
+        );
       }
-    );
+    }
     const maxPageIdx = schema.pages.length - 1;
-    const hasThankYou = schema.pages[maxPageIdx].type === "thankyou";
+    const hasThankYou = schema.pages[maxPageIdx].type === 'thankyou';
     if (currentPageIdx < maxPageIdx) {
       setCurrentPageIdx(currentPageIdx + 1);
     }
@@ -93,7 +128,9 @@ export const SnoopForm: FC<Props> = ({
           <CurrentPageContext.Provider
             value={{ currentPageIdx, setCurrentPageIdx }}
           >
-            <div /* className={className} */>{children}</div>
+            <div className={classNamesConcat('max-w-lg', className)}>
+              {children}
+            </div>
           </CurrentPageContext.Provider>
         </SubmissionContext.Provider>
       </SchemaContext.Provider>

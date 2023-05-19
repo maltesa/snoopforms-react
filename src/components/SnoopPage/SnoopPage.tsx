@@ -5,33 +5,62 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from "react";
+} from 'react';
+import { classNamesConcat } from '../../lib/utils';
 import {
   CurrentPageContext,
   SchemaContext,
   SubmitHandlerContext,
-} from "../SnoopForm/SnoopForm";
+} from '../SnoopForm/SnoopForm';
+import {secondsToHms} from '../../lib/utils'
 
-export const PageContext = createContext("");
+import useCountDown from 'react-countdown-hook';
+import { TimerBubble } from '../Elements/TimerBubble';
+
+export const PageContext = createContext('');
 
 interface Props {
   name: string;
   className?: string;
   children?: ReactNode;
   thankyou?: boolean;
+  initialTime?: number;
+  countDown?: boolean;
+  time: number
 }
 
 export const SnoopPage: FC<Props> = ({
+
   name,
   className,
   children,
-  thankyou = false,
+  thankyou=false,
+  countDown,
+  time
+  // startDate
 }) => {
   const { schema, setSchema } = useContext<any>(SchemaContext);
-  const { currentPageIdx, setCurrentPageIdx } = useContext(CurrentPageContext);
   const handleSubmit = useContext(SubmitHandlerContext);
   const [initializing, setInitializing] = useState(true);
+  const { currentPageIdx } = useContext(CurrentPageContext);
 
+
+
+  const [timeLeft, { start }] = useCountDown(time, 1000);
+
+  React.useEffect(() => {
+    if (countDown) {
+      start();
+    }
+  }, []);
+
+
+  if (Math.ceil(timeLeft/1000) === 1) {
+    setTimeout(() => {
+      handleSubmit(name);
+    }, 1000);
+  }
+  
   useEffect(() => {
     setSchema((schema: any) => {
       const newSchema = { ...schema };
@@ -42,11 +71,11 @@ export const SnoopPage: FC<Props> = ({
         );
         return newSchema;
       }
-      if (thankyou) {
-        newSchema.pages.push({ name, type: "thankyou" });
-      } else {
-        newSchema.pages.push({ name, type: "form", elements: [] });
-      }
+      newSchema.pages.push({
+        name,
+        type: thankyou ? 'thankyou' : 'form',
+        elements: [],
+      });
 
       return newSchema;
     });
@@ -70,14 +99,37 @@ export const SnoopPage: FC<Props> = ({
     return <div />;
   }
 
-  return (
-    <PageContext.Provider value={name}>
-      {currentPageIdx ===
-        schema.pages.findIndex((p: any) => p.name === name) && (
-        <form className={className} onSubmit={onSubmit}>
+  if (thankyou) {
+    return (
+      <PageContext.Provider value={name}>
+        {currentPageIdx ===
+          schema.pages.findIndex((p: any) => p.name === name) && children}
+      </PageContext.Provider>
+    );
+  } else {
+    return (
+      <PageContext.Provider value={name}>
+        <div className="w-full items-center flex flex-col mb-20">
+          {
+            timeLeft ?
+            <TimerBubble classNames={{button: `bg-${timeLeft<61000? 'red': 'gray'}-600 top-20 fixed`}} label={secondsToHms((timeLeft-1)/1000)}></TimerBubble>: <></>
+          }
+        </div>
+
+        <form
+          className={classNamesConcat(
+            currentPageIdx ===
+              schema.pages.findIndex((p: any) => p.name === name)
+              ? 'block'
+              : 'hidden',
+            'space-y-6',
+            className
+          )}
+          onSubmit={onSubmit}
+        >
           {children}
         </form>
-      )}
-    </PageContext.Provider>
-  );
+      </PageContext.Provider>
+    );
+  }
 };

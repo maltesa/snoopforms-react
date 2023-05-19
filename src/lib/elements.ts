@@ -1,8 +1,9 @@
+import { Option } from '../types';
+
 export const setSubmissionValue = (
   v: any,
   pageName: string,
   name: string,
-  submission: any,
   setSubmission: (s: any) => void
 ) => {
   setSubmission((submission: any) => {
@@ -14,3 +15,26 @@ export const setSubmissionValue = (
     return newSubmission;
   });
 };
+
+export const getOptionsSchema = (options: any[] | undefined) => {
+  const newOptions = [];
+  if (options) {
+    for (const option of options) {
+      if (typeof option === 'string') {
+        newOptions.push({ label: option, value: option });
+      }
+      if (
+        typeof option === 'object' &&
+        'value' in option &&
+        'label' in option
+      ) {
+        newOptions.push({ label: option.label, value: option.value });
+      }
+    }
+  }
+  return newOptions;
+};
+
+export function getOptionValue(option: string | Option) {
+  return typeof option === 'object' ? option.value : option;
+}

@@ -1,18 +1,18 @@
 import React, { FC, useContext } from 'react';
+import useDefaultValue from '../../hooks/useDefaultValue';
 import { setSubmissionValue } from '../../lib/elements';
+import { classNamesConcat } from '../../lib/utils';
+import { TextFieldProps } from '../../types';
 import { SubmissionContext } from '../SnoopForm/SnoopForm';
 import { PageContext } from '../SnoopPage/SnoopPage';
-import { TextFieldProps } from '../../types';
-import { classNamesConcat } from '../../lib/utils';
-import useDefaultValue from '../../hooks/useDefaultValue';
 
-export const Textarea: FC<TextFieldProps> = ({
+export const Email: FC<TextFieldProps> = ({
   name,
   label,
   help,
+  Icon,
   classNames,
   placeholder,
-  rows,
   required,
   defaultValue,
 }) => {
@@ -30,21 +30,33 @@ export const Textarea: FC<TextFieldProps> = ({
             classNames.label || 'block text-sm font-medium text-gray-700'
           }
         >
-          {label}
           {required ? <span className="text-red-600">*</span> : <></>}
+          {label}
         </label>
       )}
-      <div className="mt-1">
-        <textarea
+      <div className="relative mt-1 rounded-md shadow-sm">
+        {Icon && (
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="w-5 h-5 text-gray-400 ">{Icon}</div>
+          </div>
+        )}
+
+        <input
+          type="email"
+          defaultValue={defaultValue}
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          onInvalid={(e: any) =>
+            e.target.setCustomValidity('please enter a valid email address')
+          }
+          onInput={(e: any) => e.target.setCustomValidity('')}
           name={name}
           id={`input-${name}`}
-          defaultValue={defaultValue}
-          rows={rows}
-          placeholder={placeholder}
           className={classNamesConcat(
-            'block w-full border border-gray-300 rounded-md shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm',
-            classNames.element
+            Icon ? 'pl-10' : '',
+            classNames.element ||
+              'block w-full border-gray-300 rounded-md focus:ring-slate-500 focus:border-slate-500 sm:text-sm'
           )}
+          placeholder={placeholder}
           onChange={e =>
             setSubmissionValue(e.target.value, pageName, name, setSubmission)
           }
